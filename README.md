@@ -1,8 +1,8 @@
 # MyPeople Bot Callback Buffer
 
-    morbo mypeople_bot_buffer
+    morbo -l "http://*:8080" mypeople_bot_buffer
 
-and see http://HOST:PORT/
+and see http://HOST:8080/
 
 ## See Also ##
 
