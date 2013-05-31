@@ -27,7 +27,7 @@ get '/' => sub {
 	$self->render('index');
 };
 
-my $max = 1000;
+my $max = 100;
 any '/:id/callback' => sub{
 	my $self = shift;
 	my $id = $self->param('id');
