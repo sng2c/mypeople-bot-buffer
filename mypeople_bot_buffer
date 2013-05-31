@@ -42,7 +42,7 @@ any '/:id/callback' => sub{
 		# 100개만 남기기
 		my $len = @{$arr};
 		if( $len > $max ){
-			$arr = [splice @{$arr},-1*$max)];
+			$arr = [splice @{$arr},(-1*$max)];
 		}
 		push(@{$arr},$msg);
 		$self->chi->set($id=>enc($arr));
