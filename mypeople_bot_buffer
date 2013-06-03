@@ -107,7 +107,7 @@ __DATA__
 	<li>서버 IP는 봇이 돌아가는 PC 또는 서버의 외부IP로 설정합니다. 
 	<ul>
 		<li><a href='<%= url_for('/myip')->to_abs %>'>내 외부IP확인</li>
-		<li><a href=''>IP 자동 업데이트 툴</a></li>
+		<li><a href='https://metacpan.org/release/Net-MyPeople-Bot-IPUpdator'>IP 자동 업데이트 툴</a></li>
 	</ul>
 	</a>
 	<li><%= url_for('')->to_abs %><span class='label label-info'>mybot.bot</span> 에서 쌓인 메세지들을 <b>조회만</b> 할 수 있습니다.</li>
