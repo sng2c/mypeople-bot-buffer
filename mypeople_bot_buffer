@@ -84,7 +84,7 @@ __DATA__
 % title '마이피플 봇 Callback Buffer';
 <div class="page-header">
 <h2><%= title %></h2>
-<small>마이피플 봇 API를 이용할 때에는, 사용자의 메세지를 HTTP콜백으로 받기 위해서 Public IP를 가진 웹서버가 하나 필요합니다. 이 서비스는 콜백을 대신 받아서 임시로 저장해주는 서비스로, 따로 서버가 없더라도 마이피플 봇을 만들 수 있습니다. 받은 메세지들을 암호화해 주는 기능은 준비중입니다.</small>
+<span>마이피플 봇 API를 이용할 때에는, 사용자의 메세지를 HTTP콜백으로 받기 위해서 Public IP를 가진 웹서버가 하나 필요합니다.<br>이 서비스는 콜백을 대신 받아서 임시로 저장해주는 서비스로, 따로 서버가 없더라도 마이피플 봇을 만들 수 있습니다.<br>받은 메세지들을 암호화해 주는 기능은 준비중입니다.</span>
 </div>
 <p>
 <h3>이용방법</h3>
@@ -96,13 +96,15 @@ __DATA__
 	</li>
 	<li><%= url_for('')->to_abs %><span class='label label-info'>mybot.bot</span> 에서 쌓인 메세지들을 <b>확인만</b> 할 수 있습니다.</li>
 	<li><%= url_for('')->to_abs %><span class='label label-info'>mybot.bot</span>/flush 에서 쌓인 메세지들을 사용합니다. 조회 후 삭제됩니다. 봇에서는 이 주소를 이용해 쌓인 메세지들을 가져오도록 합니다.</li>
+	<li>만약, 다른 사람이 내 버퍼에 접근하는 것이 싫다면, 예측할 수 없게끔 복잡하게 아이디를 지정하면 됩니다.<br>예시) <%= url_for('')->to_abs %><span class='label label-info' >ddfacd30eeffef22</span>/callback</li>
 </ol>
 </p>
 <p>
 	<h3>참고</h3>
 	<ul>
+		<li>Source : <a href='https://github.com/sng2c/mypeople-bot-buffer'>https://github.com/sng2c/mypeople-bot-buffer</a>
 		<li>MyPeople API : <a href='http://dna.daum.net/apis/mypeople'>http://dna.daum.net/apis/mypeople</a>
-		<li>Source : <a href='https://github.com/sng2c/net-mypeople-bot'>https://github.com/sng2c/net-mypeople-bot</a></li>
+		<li>Net::MyPeople::Bot: <a href='https://github.com/sng2c/net-mypeople-bot'>https://github.com/sng2c/net-mypeople-bot</a></li>
 	</ul>
 </p>
 
