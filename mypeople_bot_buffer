@@ -30,7 +30,7 @@ get '/' => sub {
 
 get '/myip' => sub {
 	my $self = shift;
-	my $data = enc({ip=>$self->tx->remote_address});
+	my $data = $self->tx->remote_address;
 
 	$self->render(text=>$data);
 };
@@ -100,10 +100,16 @@ __DATA__
 <h3>이용방법</h3>
 <ol>
 	<li>사용하려는 봇의 아이디를 <span class='label label-info'>mybot.bot</span>이라 했을 때,  </li>
-	<li>콜백주소를 <%= url_for('')->to_abs %><span class='label label-info'>mybot.bot</span>/callback 으로 지정하고, IP는 봇이 돌아가는 PC 또는 서버의 IP로 설정합니다. 
+	<li>콜백주소를 <%= url_for('')->to_abs %><span class='label label-info'>mybot.bot</span>/callback 으로 지정합니다.
 	<br>예시)<br>
 <img src='<%= url_for('/img/callback_setting.png')->to_abs %>'>
 	</li>
+	<li>서버 IP는 봇이 돌아가는 PC 또는 서버의 외부IP로 설정합니다. 
+	<ul>
+		<li><a href='<%= url_for('/myip')->to_abs %>'>내 외부IP확인</li>
+		<li><a href=''>IP 자동 업데이트 툴</a></li>
+	</ul>
+	</a>
 	<li><%= url_for('')->to_abs %><span class='label label-info'>mybot.bot</span> 에서 쌓인 메세지들을 <b>조회만</b> 할 수 있습니다.</li>
 	<li><%= url_for('')->to_abs %><span class='label label-info'>mybot.bot</span>/flush 에서 쌓인 메세지들을 사용합니다. <strong>조회 후 삭제됩니다. 봇에서는 이 주소를 이용해 쌓인 메세지들을 가져오도록 합니다.</strong></li>
 	<li>각 메세지에는 time 항목이 추가됩니다. 이는 메세지를 받은 초단위 timestamp값입니다.</li>
