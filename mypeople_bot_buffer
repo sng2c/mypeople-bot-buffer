@@ -28,6 +28,13 @@ get '/' => sub {
 	$self->render('index', ip=>$ip);
 };
 
+get '/myip' => sub {
+	my $self = shift;
+	my $data = enc({ip=>$self->tx->remote_address});
+
+	$self->render(text=>$data);
+};
+
 my $max = 100;
 any '/#id/callback' => sub{
 	my $self = shift;
