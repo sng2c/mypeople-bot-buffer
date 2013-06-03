@@ -93,7 +93,7 @@ __DATA__
 <h3>이용방법</h3>
 <ol>
 	<li>사용하려는 봇의 아이디를 <span class='label label-info'>mybot.bot</span>이라 했을 때,  </li>
-	<li>콜백주소를 <%= url_for('')->to_abs %><span class='label label-info'>mybot.bot</span>/callback 으로 지정하고, IP는 <%= $ip %> 로 설정합니다. 
+	<li>콜백주소를 <%= url_for('')->to_abs %><span class='label label-info'>mybot.bot</span>/callback 으로 지정하고, IP는 봇이 돌아가는 PC 또는 서버의 IP로 설정합니다. 
 	<br>예시)<br>
 <img src='<%= url_for('/img/callback_setting.png')->to_abs %>'>
 	</li>
