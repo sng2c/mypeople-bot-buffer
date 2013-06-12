@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use Mojolicious::Lite;
 use JSON;
-use WWW::Mechanize;
+use LWP::UserAgent;
 use LWP::Protocol::https;
 use HTTP::Request::Common;
 use Data::Printer;
@@ -9,7 +9,7 @@ use Encode;
 # Documentation browser under "/perldoc"
 plugin 'PODRenderer';
 
-my $mech = WWW::Mechanize->new;
+my $mech = LWP::UserAgent->new; 
 helper 'mech'=>sub{
 	return $mech;
 };
@@ -111,6 +111,7 @@ any '/proxy/*url' => sub{
 		my $newreq = POST($url, %{$headers},Content=>$req->build_body);
 		$newres = $mech->request($newreq);
 	}
+	
 	$self->render(text=>$newres->decoded_content);
 };
 
