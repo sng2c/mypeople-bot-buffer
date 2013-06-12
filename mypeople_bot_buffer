@@ -95,27 +95,23 @@ get '/#id/flush' => sub{
 any '/proxy/*url' => sub{
 	my $self = shift;
 	my $req = $self->req;
-	my $url = $self->param('url');
-	$url .= '?'.$req->query_params if( $req->query_params );
 
-	my $method  = lc($req->method);
-	my $body = $req->body_params;
+
+	my $url = $self->param('url').'?'.$self->req->query_params;
 
 	my $headers = $req->headers->to_hash;
+	delete($headers->{Host});
 
-	my $res;
-	if( $method eq 'get' ){
-		$res = $mech->get($url,%{$headers});
+	my $newres;
+	if( $req->method eq 'GET' ){
+		my $newreq = GET($url, %{$headers});
+		$newres = $mech->request($newreq);
 	}
-	elsif(  $method eq 'post' ){
-		
-		my $newreq = POST( $url, 
-			%{$headers},
-			Content => $body
-			);  
-		$res = $mech->request($newreq);
+	elsif( $req->method eq 'POST'){
+		my $newreq = POST($url, %{$headers},Content=>$req->build_body);
+		$newres = $mech->request($newreq);
 	}
-	$self->render(text=>$res->decoded_content);
+	$self->render(text=>$newres->decoded_content);
 };
 
 app->start;
