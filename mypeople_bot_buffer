@@ -1,8 +1,18 @@
 #!/usr/bin/env perl
 use Mojolicious::Lite;
 use JSON;
+use WWW::Mechanize;
+use LWP::Protocol::https;
+use HTTP::Request::Common;
+use Data::Printer;
+use Encode;
 # Documentation browser under "/perldoc"
 plugin 'PODRenderer';
+
+my $mech = WWW::Mechanize->new;
+helper 'mech'=>sub{
+	return $mech;
+};
 
 plugin 'CHI'=>{
 	default => {
@@ -82,6 +92,32 @@ get '/#id/flush' => sub{
 	$self->render(text=>$data);
 };
 
+any '/proxy/*url' => sub{
+	my $self = shift;
+	my $req = $self->req;
+	my $url = $self->param('url');
+	$url .= '?'.$req->query_params if( $req->query_params );
+
+	my $method  = lc($req->method);
+	my $body = $req->body_params;
+
+	my $headers = $req->headers->to_hash;
+
+	my $res;
+	if( $method eq 'get' ){
+		$res = $mech->get($url,%{$headers});
+	}
+	elsif(  $method eq 'post' ){
+		
+		my $newreq = POST( $url, 
+			%{$headers},
+			Content => $body
+			);  
+		$res = $mech->request($newreq);
+	}
+	$self->render(text=>$res->decoded_content);
+};
+
 app->start;
 
 __DATA__
@@ -104,16 +140,12 @@ __DATA__
 	<br>예시)<br>
 <img src='<%= url_for('/img/callback_setting.png')->to_abs %>'>
 	</li>
-	<li>서버 IP는 봇이 돌아가는 PC 또는 서버의 외부IP로 설정합니다. 
-	<ul>
-		<li><a href='<%= url_for('/myip')->to_abs %>'>내 외부IP확인</li>
-		<li><a href='https://metacpan.org/release/Net-MyPeople-Bot-IPUpdator'>IP 자동 업데이트 툴</a></li>
-	</ul>
-	</a>
+	<li>서버 IP는 <%= $ip %> 로 설정합니다.</li>
 	<li><%= url_for('')->to_abs %><span class='label label-info'>mybot.bot</span> 에서 쌓인 메세지들을 <b>조회만</b> 할 수 있습니다.</li>
 	<li><%= url_for('')->to_abs %><span class='label label-info'>mybot.bot</span>/flush 에서 쌓인 메세지들을 사용합니다. <strong>조회 후 삭제됩니다. 봇에서는 이 주소를 이용해 쌓인 메세지들을 가져오도록 합니다.</strong></li>
 	<li>각 메세지에는 time 항목이 추가됩니다. 이는 메세지를 받은 초단위 timestamp값입니다.</li>
 	<li>만약, 다른 사람이 내 버퍼에 접근하는 것이 싫다면, 예측할 수 없게끔 복잡하게 아이디를 지정하면 됩니다.(봇의 아이디와 같을 필요는 없습니다.)<br>예시) <%= url_for('')->to_abs %><span class='label label-info' >ddfacd30eeffef22</span>/callback</li>
+	<li>API를 호출할때에는 API주소앞에 <span class='label label-info'><%= url_for('proxy/')->to_abs %></span>를 붙여서 <%= url_for('proxy/')->to_abs %>https://apis.daum.net/mypeople 과 같이 해주면 됩니다. GET/POST 동일 </li>
 </ol>
 </p>
 <p>
